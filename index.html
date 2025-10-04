@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stories que vendem — Pacote para sua Loja</title>
+  <meta name="description" content="Transformo sua oferta em vídeo animado para Instagram Stories. Pacote mensal para lancherias por R$ 247/mês." />
+  <style>
+    :root{
+      --bg:#0b0b0f; --card:#14141a; --text:#f5f7fb; --muted:#b6bdc7; --accent:#22c55e; --accent-2:#f59e0b; --border:#262632;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:linear-gradient(180deg,#0b0b0f 0%, #0e1117 100%);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:inherit}
+    .container{max-width:1080px;margin:0 auto;padding:24px}
+    header{padding:16px 0;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    header .brand{font-weight:800;letter-spacing:.3px}
+    header nav a{padding:8px 12px;border-radius:10px;color:var(--muted);text-decoration:none}
+    header nav a:hover{background:var(--card);color:var(--text)}
+    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding:32px 0}
+    .badge{display:inline-flex;align-items:center;gap:8px;background:#102017;color:#9ef2b9;border:1px solid #1f3d2d;padding:6px 10px;border-radius:999px;font-size:12px}
+    .title{font-size:clamp(28px,5vw,48px);line-height:1.05;margin:14px 0 8px}
+    .sub{color:var(--muted);font-size:clamp(15px,2.2vw,18px)}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px}
+    .cta{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:#072b14;border:none;border-radius:14px;padding:14px 18px;font-weight:700;font-size:16px;text-decoration:none}
+    .cta:hover{filter:brightness(1.05)}
+    .cta.secondary{background:#1f2937;color:#e5e7eb}
+    .stack{display:flex;gap:12px;flex-wrap:wrap}
+    .grid{display:grid;gap:18px}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+    section{padding:28px 0}
+    h2{font-size:clamp(22px,3.5vw,30px);margin:0 0 12px}
+    .plan{padding:20px;border:1px solid var(--border);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.00));display:flex;flex-direction:column;gap:8px}
+    .price{font-size:28px;font-weight:800;color:#d1fae5}
+    ul{margin:0;padding-left:18px;color:var(--muted)}
+    .how li{margin:8px 0}
+    .faq details{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px}
+    .faq details+details{margin-top:12px}
+    footer{padding:40px 0;color:var(--muted);text-align:center}
+    video{width:100%;border-radius:14px;border:1px solid var(--border);background:#000}
+    .mini{font-size:12px;color:var(--muted)}
+    @media(max-width:768px){
+      .hero{grid-template-columns:1fr}
+      .grid-3,.grid-2{grid-template-columns:1fr}
+      header{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">Stories que Vendem</div>
+      <nav class="stack">
+        <a href="#exemplos">Exemplos</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#planos">Plano</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <span class="badge">Novo • Pacote para Estabelecimentos</span>
+        <h1 class="title">Transformo suas ofertas em <span style="color:var(--accent-2)">vídeos animados</span> para Stories</h1>
+        <p class="sub">Pacote mensal com <b>4 vídeos</b> prontos para postar por <b>R$ 247/mês</b>. Ideal para lojas que querem destaque no Instagram.</p>
+        <div class="stack" style="margin-top:14px">
+          <a class="cta" id="cta-whats" href="https://wa.me/5551993428460?text=Quero%20o%20pacote%20de%204%20v%C3%ADdeos%20para%20Stories%20(R$%20247/m%C3%AAs)." target="_blank">Quero fechar agora</a>
+          <a class="cta secondary" href="#form">Enviar minhas ofertas</a>
+        </div>
+        <p class="mini">*Sem fidelidade. Entrega semanal. 1 revisão leve por peça.</p>
+      </div>
+      <div class="card">
+        <div style="font-weight:700;margin-bottom:8px">Exemplo (antes → depois)</div>
+        <!-- Substitua o src abaixo pelo seu arquivo .mp4 de demo -->
+        <video src="videos/ANTES.mp4" controls poster="imagens/burger.png"></video>
+      </div>
+    </section>
+
+    <section id="exemplos">
+      <h2>Exemplos reais</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <video src="videos/veterinaria.mp4" controls poster="imagens/dog.jpeg"></video>
+          <div class="mini" style="margin-top:8px">Stories 1080×1920 • 9–12s</div>
+        </div>
+        <div class="card">
+          <video src="videos/Fruki.mp4" controls poster="imagens/fruki.png"></video>
+          <div class="mini" style="margin-top:8px">Stories 1080×1920 • 7–9s</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="como-funciona">
+      <h2>Como funciona</h2>
+      <div class="grid grid-3">
+        <div class="card">
+          <b>1) Você envia a oferta</b>
+          <p class="sub">Arte pronta (JPG/PNG/PDF) ou texto do produto + preço. <a href="#form">Enviar agora</a>.</p>
+        </div>
+        <div class="card">
+          <b>2) Eu animo para Stories</b>
+          <p class="sub">Tipografia legível, preço em destaque, CTA no rodapé. 6–12 segundos.</p>
+        </div>
+        <div class="card">
+          <b>3) Você recebe o vídeo</b>
+          <p class="sub">Arquivo .mp4 otimizado para Instagram (1080×1920). Pronto pra postar.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="planos">
+      <h2>Plano de lançamento</h2>
+      <div class="grid grid-2">
+        <div class="plan">
+          <div style="font-weight:800">Pacote Stories • Estabelecimentos</div>
+          <div class="price">R$ 247/mês</div>
+          <ul>
+            <li>4 vídeos/mês (1 por semana)</li>
+            <li>Formato Stories 9:16 (1080×1920)</li>
+            <li>1 revisão leve por peça</li>
+            <li>Entrega em até 48h após envio da oferta</li>
+          </ul>
+          <div class="stack" style="margin-top:12px">
+            <a class="cta" id="cta-whats-2" href="https://wa.me/5551993428460?text=Quero%20assinar%20o%20pacote%20de%204%20v%C3%ADdeos%20para%20Stories%20(R$%20247/m%C3%AAs)." target="_blank">Assinar agora</a>
+            <a class="cta secondary" href="#form">Enviar ofertas</a>
+          </div>
+        </div>
+        <div class="card">
+          <b>O que posso enviar?</b>
+          <ul class="how">
+            <li>Imagem da promoção (JPG/PNG/PDF)</li>
+            <li>Logo (opcional)</li>
+            <li>Texto da oferta (produto + preço)</li>
+          </ul>
+          <p class="mini">Se não tiver arte pronta, eu crio um layout básico no Canva sem custo extra.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="form">
+      <h2>Enviar ofertas</h2>
+      <div class="card">
+        <p>Use o formulário para mandar suas ofertas da semana e a arte/imagem. Em até 48h você recebe o vídeo pronto 👇</p>
+        <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLScXRSc8PyKbrtyrvT_hzgzyrvyt9gWx2qa8HzkkPL4R4xfPXQ/viewform?usp=dialog" target="_blank">Abrir formulário</a>
+      </div>
+    </section>
+
+    <section id="faq" class="faq">
+      <h2>FAQ</h2>
+      <details>
+        <summary>Em quanto tempo recebo?</summary>
+        <p>Até 48h após você enviar a oferta pelo formulário.</p>
+      </details>
+      <details>
+        <summary>Posso mandar só o texto da oferta?</summary>
+        <p>Sim. Se você não tiver arte pronta, eu crio um layout básico no Canva sem custo extra.</p>
+      </details>
+      <details>
+        <summary>Os vídeos funcionam fora do Instagram?</summary>
+        <p>Sim, são .mp4 padrão 1080×1920 e rodam em telas internas (TV vertical) e outras redes.</p>
+      </details>
+    </section>
+
+    <footer>
+      © <span id="ano"></span> Stories que Vendem — Feito para seu negócio
+    </footer>
+  </div>
+
+  <script>
+    // atualiza ano do rodapé
+    document.getElementById('ano').textContent = new Date().getFullYear();
+    // opcional: pré-preencher número do WhatsApp via querystring ?whats=55999...
+    const params = new URLSearchParams(location.search);
+    const whats = params.get('whats');
+    if (whats){
+      document.querySelectorAll('#cta-whats, #cta-whats-2').forEach(a=>{
+        a.href = `https://wa.me/${whats}?text=${encodeURIComponent('Quero o pacote de 4 vídeos para Stories (R$ 247/mês).')}`
+      });
+    }
+  </script>
+</body>
+</html>
