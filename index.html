@@ -47,6 +47,111 @@
     }
   </style>
 </head>
+  <!-- CTA site: WhatsApp + Banner Form -->
+<style>
+  .cta-whats {
+    position: fixed; right: 16px; bottom: 16px; z-index: 9999;
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #25D366; color:#062b13; font-weight:800;
+    border-radius: 999px; padding: 12px 16px; text-decoration: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    transition: transform .2s ease, box-shadow .2s ease; 
+  }
+  .cta-whats:hover { transform: translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,.3) }
+  .cta-whats svg { width:22px; height:22px }
+
+  .cta-banner {
+    position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 9998;
+    display: none; /* aparece via JS */
+    background: #14141a; border:1px solid #262632; color:#f5f7fb;
+    border-radius: 14px; padding: 12px 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+  .cta-banner .row { display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap }
+  .cta-banner b { font-size: 15px }
+  .cta-banner p { margin:0; color:#b6bdc7; font-size: 13px }
+  .cta-banner .actions { display:flex; gap:10px; align-items:center }
+  .btn {
+    display:inline-flex; align-items:center; gap:8px; text-decoration:none;
+    background:#22c55e; color:#072b14; font-weight:800; border-radius:10px; padding:10px 12px;
+  }
+  .btn.secondary { background:#1f2937; color:#e5e7eb }
+  .cta-close {
+    background: transparent; border: none; color:#b6bdc7; font-size:18px; cursor:pointer; padding:6px
+  }
+  @media (max-width:480px){
+    .cta-whats span { display:none } /* só o ícone no mobile */
+  }
+</style>
+
+<a class="cta-whats" id="ctaWhats" target="_blank" rel="noopener">
+  <!-- ícone Whats -->
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.87 11.87 0 0 0 12.05 0 11.94 11.94 0 0 0 .1 11.89a11.76 11.76 0 0 0 1.62 6L0 24l6.34-1.67a11.93 11.93 0 0 0 5.71 1.46h.01A11.94 11.94 0 0 0 24 12.06a11.86 11.86 0 0 0-3.48-8.58ZM12.06 22.1h-.01a9.93 9.93 0 0 1-5.06-1.39l-.36-.21-3.76.99 1-3.66-.24-.38a9.9 9.9 0 1 1 8.43 4.65Zm5.47-7.45c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.76.97-.93 1.17-.17.2-.34.22-.64.07-.3-.15-1.27-.47-2.42-1.49-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.34.45-.5.15-.17.2-.29.3-.49.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.48-.5-.67-.51l-.57-.01a1.1 1.1 0 0 0-.8.37c-.27.3-1.04 1.02-1.04 2.49 0 1.47 1.07 2.9 1.22 3.1.15.2 2.1 3.2 5.07 4.49.71.31 1.27.5 1.7.64.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35Z"/></svg>
+  <span>Fale no WhatsApp</span>
+</a>
+
+<div class="cta-banner" id="ctaBanner" role="dialog" aria-live="polite">
+  <div class="row">
+    <div>
+      <b>Quer receber seus vídeos animados?</b>
+      <p>Envie suas ofertas em 30s — eu devolvo o Stories pronto.</p>
+    </div>
+    <div class="actions">
+      <a class="btn" id="btnForm" target="_blank" rel="noopener">Enviar ofertas</a>
+      <a class="btn secondary" id="btnBannerWhats" target="_blank" rel="noopener">WhatsApp</a>
+      <button class="cta-close" id="ctaClose" aria-label="Fechar">✕</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    // === CONFIGURE AQUI ===
+    const WHATS_NUMBER = '5551993428460'; // seu número com DDI
+    const FORMS_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScXRSc8PyKbrtyrvT_hzgzyrvyt9gWx2qa8HzkkPL4R4xfPXQ/viewform?usp=dialog';
+
+    // Captura UTM (se houver) pra levar ao Whats e ao Forms
+    const params = new URLSearchParams(location.search);
+    const utm = params.toString();
+    const msg = 'Quero o pacote de 4 vídeos para Stories (R$ 247/mês).';
+    const whatsLink = `https://wa.me/${WHATS_NUMBER}?text=${encodeURIComponent(msg)}${utm ? '%0A%0A' + encodeURIComponent('UTM: '+utm) : ''}`;
+
+    // Botão flutuante Whats
+    const ctaWhats = document.getElementById('ctaWhats');
+    ctaWhats.href = whatsLink;
+
+    // Banner: só aparece uma vez a cada 24h
+    const BANNER_KEY = 'cta_banner_closed_at';
+    const lastClose = +localStorage.getItem(BANNER_KEY) || 0;
+    const now = Date.now();
+    const oneDay = 24*60*60*1000;
+
+    const banner = document.getElementById('ctaBanner');
+    const btnForm = document.getElementById('btnForm');
+    const btnBannerWhats = document.getElementById('btnBannerWhats');
+    const closeBtn = document.getElementById('ctaClose');
+
+    btnForm.href = FORMS_URL + (utm ? (FORMS_URL.includes('?') ? '&' : '?') + utm : '');
+    btnBannerWhats.href = whatsLink;
+
+    function showBanner(){
+      banner.style.display = 'block';
+      banner.animate([{transform:'translateY(12px)', opacity:0}, {transform:'translateY(0)', opacity:1}], {duration:240, easing:'ease-out'});
+    }
+
+    if (!lastClose || (now - lastClose) > oneDay){
+      setTimeout(showBanner, 8000); // mostra após 8s
+    }
+
+    closeBtn.addEventListener('click', ()=>{
+      banner.animate([{opacity:1},{opacity:0}], {duration:180, easing:'ease-in'}).onfinish = ()=>{
+        banner.style.display = 'none';
+        localStorage.setItem(BANNER_KEY, String(Date.now()));
+      };
+    });
+  })();
+</script>
+
 <body>
   <div class="container">
     <header>
@@ -181,3 +286,4 @@
   </script>
 </body>
 </html>
+
