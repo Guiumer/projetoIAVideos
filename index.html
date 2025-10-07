@@ -47,7 +47,7 @@
     }
   </style>
 </head>
-  <!-- CTA site: WhatsApp + Banner Form (com z-index correto, transição e blur) -->
+ <!-- CTA site: WhatsApp + Banner Form (sem blur, transição suave, sobre o botão) -->
 <style>
   /* --- botão flutuante Whats --- */
   .cta-whats {
@@ -61,13 +61,6 @@
   .cta-whats:hover { transform: translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,.3) }
   .cta-whats svg { width:22px; height:22px }
   @media (max-width:480px){ .cta-whats span { display:none } }
-
-  /* --- backdrop (blur) quando o banner estiver aberto --- */
-  .cta-backdrop {
-    position: fixed; inset: 0; z-index: 9999; display: none;
-    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-    background: rgba(0,0,0,.18);
-  }
 
   /* --- banner --- */
   .cta-banner {
@@ -110,8 +103,6 @@
   <span>Fale no WhatsApp</span>
 </a>
 
-<div class="cta-backdrop" id="ctaBackdrop" aria-hidden="true"></div>
-
 <div class="cta-banner" id="ctaBanner" role="dialog" aria-live="polite" aria-label="Convite para enviar ofertas">
   <div class="row">
     <div>
@@ -141,7 +132,6 @@
     // Elementos
     const ctaWhats = document.getElementById('ctaWhats');
     const banner = document.getElementById('ctaBanner');
-    const backdrop = document.getElementById('ctaBackdrop');
     const btnForm = document.getElementById('btnForm');
     const btnBannerWhats = document.getElementById('btnBannerWhats');
     const closeBtn = document.getElementById('ctaClose');
@@ -158,18 +148,15 @@
     const oneDay = 24*60*60*1000;
 
     function openBanner(){
-      backdrop.style.display = 'block';
       banner.classList.remove('hide');
       banner.classList.add('show');
     }
     function closeBanner(){
       banner.classList.remove('show');
       banner.classList.add('hide');
-      // anima a saída e depois esconde backdrop
       banner.addEventListener('animationend', function onEnd(){
         banner.removeEventListener('animationend', onEnd);
         banner.style.display = 'none';
-        backdrop.style.display = 'none';
       }, { once:true });
       localStorage.setItem(BANNER_KEY, String(Date.now()));
     }
@@ -179,7 +166,6 @@
     }
 
     closeBtn.addEventListener('click', closeBanner);
-    backdrop.addEventListener('click', closeBanner); // fechar ao clicar fora
   })();
 </script>
 
@@ -317,5 +303,6 @@
   </script>
 </body>
 </html>
+
 
 
