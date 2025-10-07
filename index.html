@@ -47,30 +47,53 @@
     }
   </style>
 </head>
-  <!-- CTA site: WhatsApp + Banner Form -->
+  <!-- CTA site: WhatsApp + Banner Form (com z-index correto, transição e blur) -->
 <style>
+  /* --- botão flutuante Whats --- */
   .cta-whats {
-    position: fixed; right: 16px; bottom: 16px; z-index: 9999;
+    position: fixed; right: 16px; bottom: 16px; z-index: 9998; /* atrás do banner */
     display: inline-flex; align-items: center; gap: 10px;
     background: #25D366; color:#062b13; font-weight:800;
     border-radius: 999px; padding: 12px 16px; text-decoration: none;
     box-shadow: 0 8px 24px rgba(0,0,0,.25);
-    transition: transform .2s ease, box-shadow .2s ease; 
+    transition: transform .2s ease, box-shadow .2s ease;
   }
   .cta-whats:hover { transform: translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,.3) }
   .cta-whats svg { width:22px; height:22px }
+  @media (max-width:480px){ .cta-whats span { display:none } }
 
-  .cta-banner {
-    position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 9998;
-    display: none; /* aparece via JS */
-    background: #14141a; border:1px solid #262632; color:#f5f7fb;
-    border-radius: 14px; padding: 12px 14px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  /* --- backdrop (blur) quando o banner estiver aberto --- */
+  .cta-backdrop {
+    position: fixed; inset: 0; z-index: 9999; display: none;
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    background: rgba(0,0,0,.18);
   }
+
+  /* --- banner --- */
+  .cta-banner {
+    position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 10000; /* acima do Whats */
+    display: none; background: #14141a; border:1px solid #262632; color:#f5f7fb;
+    border-radius: 14px; padding: 12px 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.45);
+    transform: translateY(12px); opacity: 0;  /* estado inicial para animar via classe */
+  }
+  .cta-banner.show { display:block; animation: ctaIn .28s ease-out forwards; }
+  .cta-banner.hide { animation: ctaOut .18s ease-in forwards; }
+
+  @keyframes ctaIn {
+    from { transform: translateY(12px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+  @keyframes ctaOut {
+    from { transform: translateY(0);    opacity: 1; }
+    to   { transform: translateY(6px);  opacity: 0; }
+  }
+
   .cta-banner .row { display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap }
   .cta-banner b { font-size: 15px }
   .cta-banner p { margin:0; color:#b6bdc7; font-size: 13px }
   .cta-banner .actions { display:flex; gap:10px; align-items:center }
+
   .btn {
     display:inline-flex; align-items:center; gap:8px; text-decoration:none;
     background:#22c55e; color:#072b14; font-weight:800; border-radius:10px; padding:10px 12px;
@@ -78,9 +101,6 @@
   .btn.secondary { background:#1f2937; color:#e5e7eb }
   .cta-close {
     background: transparent; border: none; color:#b6bdc7; font-size:18px; cursor:pointer; padding:6px
-  }
-  @media (max-width:480px){
-    .cta-whats span { display:none } /* só o ícone no mobile */
   }
 </style>
 
@@ -90,7 +110,9 @@
   <span>Fale no WhatsApp</span>
 </a>
 
-<div class="cta-banner" id="ctaBanner" role="dialog" aria-live="polite">
+<div class="cta-backdrop" id="ctaBackdrop" aria-hidden="true"></div>
+
+<div class="cta-banner" id="ctaBanner" role="dialog" aria-live="polite" aria-label="Convite para enviar ofertas">
   <div class="row">
     <div>
       <b>Quer receber seus vídeos animados?</b>
@@ -110,45 +132,54 @@
     const WHATS_NUMBER = '5551993428460'; // seu número com DDI
     const FORMS_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScXRSc8PyKbrtyrvT_hzgzyrvyt9gWx2qa8HzkkPL4R4xfPXQ/viewform?usp=dialog';
 
-    // Captura UTM (se houver) pra levar ao Whats e ao Forms
+    // Captura UTM (se houver) para levar ao Whats e ao Forms
     const params = new URLSearchParams(location.search);
     const utm = params.toString();
     const msg = 'Quero o pacote de 4 vídeos para Stories (R$ 247/mês).';
     const whatsLink = `https://wa.me/${WHATS_NUMBER}?text=${encodeURIComponent(msg)}${utm ? '%0A%0A' + encodeURIComponent('UTM: '+utm) : ''}`;
 
-    // Botão flutuante Whats
+    // Elementos
     const ctaWhats = document.getElementById('ctaWhats');
-    ctaWhats.href = whatsLink;
+    const banner = document.getElementById('ctaBanner');
+    const backdrop = document.getElementById('ctaBackdrop');
+    const btnForm = document.getElementById('btnForm');
+    const btnBannerWhats = document.getElementById('btnBannerWhats');
+    const closeBtn = document.getElementById('ctaClose');
 
-    // Banner: só aparece uma vez a cada 24h
+    // Links
+    ctaWhats.href = whatsLink;
+    btnBannerWhats.href = whatsLink;
+    btnForm.href = FORMS_URL + (utm ? (FORMS_URL.includes('?') ? '&' : '?') + utm : '');
+
+    // Banner: mostrar 1x a cada 24h
     const BANNER_KEY = 'cta_banner_closed_at';
     const lastClose = +localStorage.getItem(BANNER_KEY) || 0;
     const now = Date.now();
     const oneDay = 24*60*60*1000;
 
-    const banner = document.getElementById('ctaBanner');
-    const btnForm = document.getElementById('btnForm');
-    const btnBannerWhats = document.getElementById('btnBannerWhats');
-    const closeBtn = document.getElementById('ctaClose');
-
-    btnForm.href = FORMS_URL + (utm ? (FORMS_URL.includes('?') ? '&' : '?') + utm : '');
-    btnBannerWhats.href = whatsLink;
-
-    function showBanner(){
-      banner.style.display = 'block';
-      banner.animate([{transform:'translateY(12px)', opacity:0}, {transform:'translateY(0)', opacity:1}], {duration:240, easing:'ease-out'});
+    function openBanner(){
+      backdrop.style.display = 'block';
+      banner.classList.remove('hide');
+      banner.classList.add('show');
+    }
+    function closeBanner(){
+      banner.classList.remove('show');
+      banner.classList.add('hide');
+      // anima a saída e depois esconde backdrop
+      banner.addEventListener('animationend', function onEnd(){
+        banner.removeEventListener('animationend', onEnd);
+        banner.style.display = 'none';
+        backdrop.style.display = 'none';
+      }, { once:true });
+      localStorage.setItem(BANNER_KEY, String(Date.now()));
     }
 
     if (!lastClose || (now - lastClose) > oneDay){
-      setTimeout(showBanner, 8000); // mostra após 8s
+      setTimeout(openBanner, 8000);
     }
 
-    closeBtn.addEventListener('click', ()=>{
-      banner.animate([{opacity:1},{opacity:0}], {duration:180, easing:'ease-in'}).onfinish = ()=>{
-        banner.style.display = 'none';
-        localStorage.setItem(BANNER_KEY, String(Date.now()));
-      };
-    });
+    closeBtn.addEventListener('click', closeBanner);
+    backdrop.addEventListener('click', closeBanner); // fechar ao clicar fora
   })();
 </script>
 
@@ -286,4 +317,5 @@
   </script>
 </body>
 </html>
+
 
