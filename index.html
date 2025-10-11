@@ -169,6 +169,32 @@
   })();
 </script>
 
+  <script>
+  // permite fechar o banner e lembrar o estado
+  (function(){
+    const banner = document.getElementById('promoBanner');
+    const closeBtn = document.getElementById('promoClose');
+    if (!banner || !closeBtn) return;
+
+    const KEY = 'promo_banner_closed_v1';
+    const closedAt = +localStorage.getItem(KEY) || 0;
+    const now = Date.now();
+    const oneDay = 24 * 60 * 60 * 1000;
+
+    // mostra se nunca foi fechado ou passou 1 dia
+    if (!closedAt || (now - closedAt) > oneDay) {
+      banner.style.display = 'flex';
+    } else {
+      banner.style.display = 'none';
+    }
+
+    closeBtn.addEventListener('click', ()=>{
+      banner.style.display = 'none';
+      localStorage.setItem(KEY, String(Date.now()));
+    });
+  })();
+</script>
+
 <body>
   <div class="container">
     <header>
@@ -303,6 +329,7 @@
   </script>
 </body>
 </html>
+
 
 
 
