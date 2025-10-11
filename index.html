@@ -5,7 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Stories que vendem — Pacote para sua Loja</title>
   <meta name="description" content="Transformo sua oferta em vídeo animado para Instagram Stories. Pacote mensal para lancherias por R$ 247/mês." />
+  <!-- 🔥 BANNER PROMOCIONAL -->
+<div class="promo-banner" id="promoBanner">
+  <div class="promo-content">
+    <span class="emoji">🔥</span>
+    <span class="text">
+      Promoção limitada: <b>4 vídeos animados por R$ 147</b> — garanta já o seu!
+    </span>
+    <a class="promo-btn" href="https://wa.me/5551993428460?text=Quero%20aproveitar%20a%20promo%C3%A7%C3%A3o%20de%204%20v%C3%ADdeos%20por%20R%24%20147!" target="_blank">Falar no Whats</a>
+  </div>
+  <button class="promo-close" id="promoClose" aria-label="Fechar">✕</button>
+</div>
+
   <style>
+    /* === PROMOÇÃO TOPO === */
+.promo-banner {
+  position: sticky; top: 0; z-index: 20000;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  color: #072b14; font-weight: 600;
+  text-align: center; padding: 10px 16px;
+  display: flex; align-items: center; justify-content: center;
+  animation: slideIn .5s ease-out forwards;
+  box-shadow: 0 4px 14px rgba(0,0,0,.25);
+}
+@keyframes slideIn {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+.promo-content {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;
+}
+.promo-content .emoji { font-size: 18px }
+.promo-content .text b { font-weight: 800; }
+.promo-btn {
+  background: #fff; color: #065f46; font-weight: 800;
+  border-radius: 999px; padding: 6px 12px; text-decoration: none;
+  transition: background .2s ease;
+}
+.promo-btn:hover { background: #d1fae5; }
+.promo-close {
+  background: transparent; border: none; color:#064e3b;
+  font-size: 18px; margin-left: 10px; cursor: pointer;
+}
+@media(max-width:600px){
+  .promo-content { flex-direction: column; gap:6px; text-align:center }
+  .promo-btn { padding: 8px 16px; font-size: 14px }
+}
     :root{
       --bg:#0b0b0f; --card:#14141a; --text:#f5f7fb; --muted:#b6bdc7; --accent:#22c55e; --accent-2:#f59e0b; --border:#262632;
     }
@@ -329,6 +374,7 @@
   </script>
 </body>
 </html>
+
 
 
 
